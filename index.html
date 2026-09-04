@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Đinh Trung Hiếu — .NET Developer & Freelance Web Developer</title>
+<meta name="description" content="Đinh Trung Hiếu - Lập trình viên .NET với kinh nghiệm thực chiến nhiều dự án doanh nghiệp, ngân hàng và web freelance.">
+
+<!-- Google Fonts: Poppins cho heading, Inter cho body -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<!-- Font Awesome cho icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+  /* ============================================
+     1. CSS VARIABLES — Đổi màu chủ đạo tại đây
+     ============================================ */
+  :root{
+    --navy: #1e3a8a;
+    --navy-dark: #14285f;
+    --navy-light: #3554b0;
+    --orange: #f97316;
+    --orange-dark: #c2410c;
+    --orange-soft: #fed7aa;
+
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+    --text: #0f172a;
+    --text-muted: #52607a;
+    --border: #e2e8f0;
+    --shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.15);
+
+    --font-head: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --container: 1140px;
+    --header-h: 76px;
+  }
+
+  [data-theme="dark"]{
+    --bg: #0b1120;
+    --surface: #121a2c;
+    --surface-alt: #182238;
+    --text: #eef1f8;
+    --text-muted: #93a0bd;
+    --border: #223252;
+    --navy-light: #6c8ff0;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.55);
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body{
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+  body.modal-open{ overflow: hidden; }
+
+  h1,h2,h3,h4{ font-family: var(--font-head); color: var(--text); line-height: 1.25; }
+
+  a{ color: inherit; text-decoration: none; }
+  ul{ list-style: none; }
+  img{ max-width: 100%; display:block; }
+  button{ font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  :focus-visible{ outline: 3px solid var(--orange); outline-offset: 3px; }
+
+  .container{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+  .section{ padding: 100px 0; }
+  .section-alt{ background: var(--surface-alt); }
+
+  .section-head{ max-width: 620px; margin: 0 auto 56px; text-align: center; }
+  .section-head h2{ font-size: clamp(1.8rem, 3.2vw, 2.4rem); font-weight: 700; }
+  .section-head p{ color: var(--text-muted); margin-top: 12px; font-size: 1.05rem; }
+
+  .btn{
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 28px; border-radius: var(--radius-sm);
+    font-weight: 600; font-size: 0.98rem; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+  }
+  .btn-primary{ background: var(--navy); color: #fff; }
+  .btn-primary:hover{ background: var(--navy-dark); transform: translateY(-2px); box-shadow: 0 12px 24px -10px rgba(30,58,138,0.55); }
+  .btn-outline{ background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+  [data-theme="dark"] .btn-outline{ color: #fff; border-color: var(--navy-light); }
+  .btn-outline:hover{ background: var(--navy); color: #fff; transform: translateY(-2px); }
+  .btn-block{ width: 100%; }
+
+  .badge{
+    display:inline-block; background: var(--orange-soft); color: var(--navy-dark);
+    font-size: 0.78rem; font-weight: 700; padding: 5px 14px; border-radius: 999px;
+  }
+
+  /* ============================================
+     2. HEADER — Thanh điều hướng dính (sticky)
+     ============================================ */
+  header{
+    position: fixed; top:0; left:0; right:0; z-index: 1000;
+    height: var(--header-h); display:flex; align-items:center;
+    background: transparent; transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border-bottom: 1px solid transparent;
+  }
+  header.scrolled{
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom-color: var(--border);
+    box-shadow: 0 4px 20px -12px rgba(0,0,0,0.15);
+  }
+  .nav-wrap{ display:flex; align-items:center; justify-content: space-between; width:100%; }
+
+  .logo{ display:flex; align-items:center; gap:10px; font-family: var(--font-head); }
+  .logo-mark{
+    width:40px; height:40px; border-radius: 10px; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(135deg, var(--navy), var(--orange)); color:#fff; font-weight:700; font-size:0.95rem;
+  }
+  .logo-text{ font-weight:600; font-size:1.05rem; }
+
+  .nav-links{ display:flex; gap: 28px; align-items:center; }
+  .nav-links a{ font-weight: 500; font-size: 0.95rem; color: var(--text-muted); transition: color 0.2s ease; position: relative; }
+  .nav-links a:hover{ color: var(--navy); }
+  [data-theme="dark"] .nav-links a:hover{ color: var(--navy-light); }
+
+  .nav-actions{ display:flex; align-items:center; gap:14px; }
+
+  .icon-btn{
+    width:40px; height:40px; border-radius: 50%; display:flex; align-items:center; justify-content:center;
+    background: var(--surface-alt); border: 1px solid var(--border); color: var(--text); font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .icon-btn:hover{ transform: translateY(-2px); }
+
+  .lang-switch{
+    display:flex; border: 1px solid var(--border); border-radius: 999px; overflow:hidden; font-size: 0.78rem; font-weight: 700;
+  }
+  .lang-switch button{ padding: 8px 12px; color: var(--text-muted); transition: background 0.2s ease, color 0.2s ease; }
+  .lang-switch button.active{ background: var(--navy); color:#fff; }
+
+  .menu-toggle{ display:none; }
+
+  /* ============================================
+     3. HERO SECTION
+     ============================================ */
+  .hero{
+    position: relative; padding: calc(var(--header-h) + 70px) 0 90px;
+    overflow: hidden;
+  }
+  .hero::before{
+    /* Hoạ tiết chấm bi tinh tế phía sau, gợi nhớ lưới code editor */
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(var(--border) 1.4px, transparent 1.4px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 20%, black 10%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at 70% 20%, black 10%, transparent 75%);
+    opacity: 0.9;
+  }
+  .hero-grid{
+    position: relative; display:grid; grid-template-columns: 300px 1fr; gap: 60px; align-items:center;
+  }
+  .hero-avatar-wrap{ position: relative; opacity:0; transform: translateY(16px); animation: heroIn 0.7s ease forwards; }
+  .hero-avatar{
+    width: 260px; height: 260px; border-radius: 50%; object-fit: cover;
+    border: 6px solid var(--surface); box-shadow: var(--shadow);
+  }
+  .hero-avatar-tag{
+    position:absolute; bottom: 8px; right: -6px; background: var(--surface); border:1px solid var(--border);
+    border-radius: 999px; padding: 8px 14px; font-size: 0.8rem; font-weight:700; box-shadow: var(--shadow);
+    display:flex; align-items:center; gap:6px;
+  }
+  .hero-avatar-tag i{ color: var(--orange); }
+
+  .hero-text{ opacity:0; transform: translateY(16px); animation: heroIn 0.7s ease 0.15s forwards; }
+  .hero-eyebrow{ font-weight:600; color: var(--navy); font-size: 1rem; }
+  [data-theme="dark"] .hero-eyebrow{ color: var(--navy-light); }
+  .hero-text h1{ font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin: 8px 0 18px; }
+  .hero-text h1 span{ color: var(--orange); }
+  .hero-tagline{ font-size: 1.15rem; color: var(--text-muted); max-width: 520px; margin-bottom: 34px; }
+  .hero-cta{ display:flex; gap: 16px; flex-wrap: wrap; }
+
+  @keyframes heroIn{ to{ opacity:1; transform: translateY(0); } }
+
+  /* ============================================
+     4. ABOUT / GIỚI THIỆU
+     ============================================ */
+  .about-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items:center; }
+  .about-text p{ color: var(--text-muted); font-size: 1.05rem; }
+  .stats{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 10px; }
+  .stat-card{
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 26px 16px; text-align:center;
+  }
+  .stat-num{ font-family: var(--font-head); font-size: 2.1rem; font-weight:800; color: var(--navy); }
+  [data-theme="dark"] .stat-num{ color: var(--navy-light); }
+  .stat-label{ font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+
+  /* ============================================
+     5. EXPERIENCE — Kinh nghiệm làm việc (timeline)
+     ============================================ */
+  .timeline{ position:relative; max-width:760px; margin:0 auto; }
+  .timeline::before{
+    content:""; position:absolute; left:18px; top:6px; bottom:6px; width:2px; background: var(--border);
+  }
+  .timeline-item{ position:relative; padding-left:56px; margin-bottom:38px; }
+  .timeline-item:last-child{ margin-bottom:0; }
+  .timeline-dot{
+    position:absolute; left:10px; top:2px; width:18px; height:18px; border-radius:50%;
+    background: var(--navy); border:4px solid var(--bg); box-shadow: 0 0 0 2px var(--navy);
+  }
+  .timeline-period{ font-size:0.82rem; font-weight:700; color: var(--orange-dark); margin-bottom:4px; }
+  [data-theme="dark"] .timeline-period{ color: var(--orange); }
+  .timeline-role{ font-size:1.08rem; font-weight:700; }
+  .timeline-company{ color: var(--text-muted); font-weight:600; margin-bottom:12px; font-size:0.95rem; }
+  .timeline-list li{ display:flex; gap:10px; color: var(--text-muted); font-size:0.92rem; margin-bottom:8px; align-items:flex-start; }
+  .timeline-list li i{ color: var(--orange); margin-top:5px; font-size:0.55rem; }
+
+  /* ============================================
+     6. SKILLS — Kỹ năng chuyên môn
+     ============================================ */
+  .skills-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .skill-card{
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 30px 24px; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .skill-card:hover{ transform: translateY(-6px); border-color: var(--orange); box-shadow: var(--shadow); }
+  .skill-icon{
+    width:52px; height:52px; border-radius: 12px; display:flex; align-items:center; justify-content:center;
+    background: var(--surface-alt); color: var(--navy); font-size: 1.3rem; margin-bottom: 18px;
+  }
+  [data-theme="dark"] .skill-icon{ color: var(--navy-light); }
+  .skill-card h3{ font-size: 1.08rem; font-weight:600; margin-bottom: 8px; }
+  .skill-card p{ color: var(--text-muted); font-size: 0.92rem; }
+
+  /* ============================================
+     7. PROJECTS — Dự án nổi bật
+     ============================================ */
+  .projects-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .project-card{
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+    overflow: hidden; transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .project-card:hover{ box-shadow: var(--shadow); transform: translateY(-4px); }
+  .project-thumb{ position: relative; overflow:hidden; aspect-ratio: 3/2; }
+  .project-thumb img{ width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease; }
+  .project-thumb::after{
+    content:""; position:absolute; inset:0; background: linear-gradient(180deg, transparent 40%, rgba(15,23,42,0.55));
+    opacity:0; transition: opacity 0.3s ease;
+  }
+  .project-card:hover .project-thumb img{ transform: scale(1.07); }
+  .project-card:hover .project-thumb::after{ opacity:1; }
+  .project-body{ padding: 22px; }
+  .project-body h3{ font-size: 1.1rem; font-weight:600; margin-bottom:8px; }
+  .project-body p{ color: var(--text-muted); font-size: 0.92rem; margin-bottom: 16px; }
+  .project-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 18px; }
+  .project-tags span{
+    font-size: 0.72rem; font-weight:600; background: var(--surface-alt); color: var(--text-muted);
+    padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border);
+  }
+  .project-link{ font-weight:600; font-size: 0.9rem; color: var(--navy); display:inline-flex; align-items:center; gap:6px; }
+  [data-theme="dark"] .project-link{ color: var(--navy-light); }
+  .project-link i{ transition: transform 0.2s ease; }
+  .project-link:hover i{ transform: translateX(4px); }
+
+  /* ============================================
+     8. SERVICES — Dịch vụ
+     ============================================ */
+  .services-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items:stretch; }
+  .service-card{
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 34px 28px; display:flex; flex-direction:column; position:relative;
+  }
+  .service-card.featured{
+    border-color: var(--navy); box-shadow: var(--shadow); transform: scale(1.03);
+  }
+  .service-badge{ position:absolute; top:-14px; left:50%; transform: translateX(-50%); }
+  .service-name{ font-size: 1.2rem; font-weight:700; margin-bottom: 6px; }
+  .service-price{ font-size: 1.7rem; font-weight:800; font-family: var(--font-head); color: var(--navy); margin-bottom: 22px; }
+  [data-theme="dark"] .service-price{ color: var(--navy-light); }
+  .service-features{ flex:1; margin-bottom: 26px; }
+  .service-features li{ display:flex; gap:10px; align-items:flex-start; margin-bottom: 12px; color: var(--text-muted); font-size: 0.92rem; }
+  .service-features i{ color: var(--orange); margin-top: 3px; }
+
+  /* ============================================
+     9. CONTACT — Liên hệ
+     ============================================ */
+  .contact-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .contact-card{
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 30px 20px; text-align:center; transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .contact-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--navy); }
+  .contact-icon{
+    width:58px; height:58px; border-radius:50%; margin: 0 auto 16px; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(135deg, var(--navy), var(--orange)); color:#fff; font-size: 1.4rem;
+  }
+  .contact-card h3{ font-size: 1rem; font-weight:600; margin-bottom: 6px; }
+  .contact-card p{ color: var(--text-muted); font-size: 0.85rem; word-break: break-word; }
+
+  /* ============================================
+     10. FOOTER
+     ============================================ */
+  footer{ padding: 34px 0; border-top: 1px solid var(--border); }
+  .footer-inner{ display:flex; align-items:center; justify-content:space-between; gap: 16px; flex-wrap: wrap; }
+  .footer-inner p{ color: var(--text-muted); font-size: 0.88rem; }
+  .footer-social{ display:flex; gap: 12px; }
+
+  /* ============================================
+     11. PROJECT MODAL — Popup chi tiết dự án
+     ============================================ */
+  .modal-overlay{
+    position: fixed; inset:0; background: rgba(15,23,42,0.6); z-index: 2000;
+    display:flex; align-items:center; justify-content:center; padding: 24px;
+    opacity:0; visibility:hidden; transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .modal-overlay.open{ opacity:1; visibility:visible; }
+  .modal-box{
+    background: var(--surface); border-radius: var(--radius-lg); width:100%; max-width: 600px;
+    max-height: 88vh; overflow-y:auto; position:relative; box-shadow: var(--shadow);
+    transform: translateY(16px) scale(0.98); transition: transform 0.25s ease;
+  }
+  .modal-overlay.open .modal-box{ transform: translateY(0) scale(1); }
+  .modal-close{
+    position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%;
+    background: var(--surface-alt); border: 1px solid var(--border); display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem; z-index:2; line-height:1;
+  }
+  .modal-img{ width:100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .modal-content{ padding: 28px; }
+  .modal-content h3{ font-size: 1.35rem; font-weight:700; margin-bottom: 4px; }
+  .modal-client{ color: var(--navy); font-weight:600; margin-bottom: 18px; font-size: 0.95rem; }
+  [data-theme="dark"] .modal-client{ color: var(--navy-light); }
+  .modal-meta{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;
+    padding: 16px; background: var(--surface-alt); border-radius: var(--radius-sm);
+  }
+  .modal-meta div{ font-size: 0.78rem; color: var(--text-muted); }
+  .modal-meta strong{ display:block; color: var(--text); font-size: 0.9rem; margin-top: 3px; font-weight:600; }
+  .modal-desc{ color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+
+  /* ============================================
+     12. RESPONSIVE
+     ============================================ */
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns: 1fr; text-align:center; justify-items:center; }
+    .hero-tagline{ margin-left:auto; margin-right:auto; }
+    .hero-cta{ justify-content:center; }
+    .about-grid{ grid-template-columns: 1fr; }
+    .skills-grid{ grid-template-columns: repeat(2, 1fr); }
+    .projects-grid{ grid-template-columns: repeat(2, 1fr); }
+    .services-grid{ grid-template-columns: 1fr; }
+    .service-card.featured{ transform:none; order:-1; }
+    .contact-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 720px){
+    .nav-links{
+      position: fixed; top: var(--header-h); left:0; right:0; bottom:0;
+      background: var(--surface); flex-direction:column; padding: 32px 24px; gap: 22px;
+      transform: translateX(-100%); transition: transform 0.3s ease; align-items:flex-start;
+      overflow-y:auto;
+    }
+    .nav-links.open{ transform: translateX(0); }
+    .nav-links a{ font-size: 1.1rem; color: var(--text); }
+    .menu-toggle{ display:flex; }
+    .section{ padding: 70px 0; }
+    .skills-grid{ grid-template-columns: 1fr; }
+    .projects-grid{ grid-template-columns: 1fr; }
+    .contact-grid{ grid-template-columns: 1fr; }
+    .stats{ grid-template-columns: 1fr; }
+    .lang-switch{ display:none; }
+    .modal-meta{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     HEADER — Logo, menu điều hướng, dark mode & language toggle
+     ============================================ -->
+<header id="site-header">
+  <div class="container nav-wrap">
+    <a href="#home" class="logo">
+      <span class="logo-mark">ĐTH</span>
+      <span class="logo-text">Đinh Trung Hiếu</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" data-en="About" data-vi="Về tôi">Về tôi</a></li>
+        <li><a href="#experience" data-en="Experience" data-vi="Kinh nghiệm">Kinh nghiệm</a></li>
+        <li><a href="#skills" data-en="Skills" data-vi="Kỹ năng">Kỹ năng</a></li>
+        <li><a href="#projects" data-en="Projects" data-vi="Dự án">Dự án</a></li>
+        <li><a href="#services" data-en="Services" data-vi="Dịch vụ">Dịch vụ</a></li>
+        <li><a href="#contact" data-en="Contact" data-vi="Liên hệ">Liên hệ</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" id="langSwitch">
+        <button type="button" data-lang="vi">VI</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     1. HERO SECTION
+     ============================================ -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-avatar-wrap">
+      <img class="hero-avatar" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t39.30808-6/488201221_4162790620617402_5461033615998458531_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=105&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH3EeUbHr_ik3mHUSMaNX-afsIU5QKOwTt-whTlAo7BO-_wZSN-dDKzOLiCnC8hUrdjJaUseFlUGww8BLtpP-xq&_nc_ohc=CF_ZlLWt7SQQ7kNvwGBmyCQ&_nc_oc=AdoNmKFFtFHVckN9ic3ZtBegxOKS_6dpmBfnedCFBaO5zVhWmQwjzcysJpX1ISb5vo4&_nc_zt=23&_nc_ht=scontent.fhan5-1.fna&_nc_gid=e0J5Fm_l5GjsDszJMy1pFw&_nc_ss=7b2a8&oh=00_AQLl56697kLuQw_VbpWybIETGB_MZnMONzNLkh9aQU3M1Q&oe=6A9F27E5" alt="Dinh Trung Hieu">
+      <div class="hero-avatar-tag"><i class="fa-solid fa-circle-check"></i> <span data-en="Available for work" data-vi="Sẵn sàng nhận dự án">Sẵn sàng nhận dự án</span></div>
+    </div>
+    <div class="hero-text">
+      <p class="hero-eyebrow" data-en=".NET Developer · Freelance Web Developer" data-vi="Lập trình viên .NET · Freelance Web Developer">Lập trình viên .NET · Freelance Web Developer</p>
+      <h1>Dinh Trung <span>Hieu</span></h1>
+      <p class="hero-tagline" data-en="Turning ideas into professional digital products." data-vi="Biến ý tưởng thành sản phẩm số chuyên nghiệp.">Biến ý tưởng thành sản phẩm số chuyên nghiệp.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary"><span data-en="View Projects" data-vi="Xem dự án">Xem dự án</span> <i class="fa-solid fa-arrow-down"></i></a>
+        <a href="#contact" class="btn btn-outline"><span data-en="Contact Me" data-vi="Liên hệ ngay">Liên hệ ngay</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     2. ABOUT ME — Về tôi
+     ============================================ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-en="About Me" data-vi="Về tôi">Về tôi</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p data-en="I'm a .NET Developer with over 4 years of experience, holding a Computer Science degree from Hanoi University of Civil Engineering. I've served as Key Developer and Team Leader on projects for clients at home and abroad, ranging from banking systems and tax management to enterprise platforms. I currently work at Rikkeisoft, collaborating directly with international clients while continuously learning new technologies. Alongside my main job, I also take on independent web projects to deliver real value to clients."
+           data-vi="Tôi là Lập trình viên .NET với hơn 4 năm kinh nghiệm, tốt nghiệp ngành Khoa học máy tính tại Đại học Xây dựng Hà Nội. Tôi từng đảm nhiệm vai trò Key Developer và Trưởng nhóm trong các dự án cho khách hàng trong và ngoài nước, từ hệ thống ngân hàng, quản lý thuế đến các nền tảng doanh nghiệp. Hiện tại tôi làm việc tại Rikkeisoft, trực tiếp hợp tác với khách hàng nước ngoài và không ngừng học hỏi công nghệ mới. Bên cạnh công việc chính, tôi vẫn nhận thêm các dự án web độc lập để mang lại giá trị thực tế cho khách hàng.">
+          Tôi là Lập trình viên .NET với hơn 4 năm kinh nghiệm, tốt nghiệp ngành Khoa học máy tính tại Đại học Xây dựng Hà Nội. Tôi từng đảm nhiệm vai trò Key Developer và Trưởng nhóm trong các dự án cho khách hàng trong và ngoài nước, từ hệ thống ngân hàng, quản lý thuế đến các nền tảng doanh nghiệp. Hiện tại tôi làm việc tại Rikkeisoft, trực tiếp hợp tác với khách hàng nước ngoài và không ngừng học hỏi công nghệ mới. Bên cạnh công việc chính, tôi vẫn nhận thêm các dự án web độc lập để mang lại giá trị thực tế cho khách hàng.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-num" data-target="4">0</div>
+          <div class="stat-label" data-en="Years of Experience" data-vi="Năm kinh nghiệm">Năm kinh nghiệm</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-target="6">0</div>
+          <div class="stat-label" data-en="Featured Projects" data-vi="Dự án tiêu biểu">Dự án tiêu biểu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-target="5">0</div>
+          <div class="stat-label" data-en="Partners Worked With" data-vi="Đối tác đã hợp tác">Đối tác đã hợp tác</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     3. EXPERIENCE — Kinh nghiệm làm việc
+     ============================================ -->
+<section class="section section-alt" id="experience">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-en="Work Experience" data-vi="Kinh nghiệm làm việc">Kinh nghiệm làm việc</h2>
+      <p data-en="Companies and roles I've grown through over the past 4+ years." data-vi="Những công ty và vai trò tôi đã trải qua trong hơn 4 năm qua.">Những công ty và vai trò tôi đã trải qua trong hơn 4 năm qua.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <span class="timeline-dot"></span>
+        <p class="timeline-period" data-en="08/2024 - Present" data-vi="08/2024 - Hiện tại">08/2024 - Hiện tại</p>
+        <h3 class="timeline-role" data-en=".NET Developer" data-vi="Lập trình viên .NET">Lập trình viên .NET</h3>
+        <p class="timeline-company">Rikkeisoft</p>
+        <ul class="timeline-list">
+          <li><i class="fa-solid fa-circle"></i><span data-en="Work directly with international clients, researching business logic and system workflows." data-vi="Làm việc trực tiếp với khách hàng nước ngoài, tìm hiểu nghiệp vụ và luồng vận hành sản phẩm.">Làm việc trực tiếp với khách hàng nước ngoài, tìm hiểu nghiệp vụ và luồng vận hành sản phẩm.</span></li>
+          <li><i class="fa-solid fa-circle"></i><span data-en="Write system design and database documentation, code, test, and maintain the system." data-vi="Viết tài liệu thiết kế hệ thống, thiết kế cơ sở dữ liệu, coding, kiểm thử và bảo trì hệ thống.">Viết tài liệu thiết kế hệ thống, thiết kế cơ sở dữ liệu, coding, kiểm thử và bảo trì hệ thống.</span></li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-dot"></span>
+        <p class="timeline-period" data-en="03/2023 - 07/2024" data-vi="03/2023 - 07/2024">03/2023 - 07/2024</p>
+        <h3 class="timeline-role" data-en=".NET Developer" data-vi="Lập trình viên .NET">Lập trình viên .NET</h3>
+        <p class="timeline-company">CyberLotus</p>
+        <ul class="timeline-list">
+          <li><i class="fa-solid fa-circle"></i><span data-en="Key Developer on a General Department of Taxation project, built with ASP.NET Zero." data-vi="Đảm nhiệm vai trò Key Developer trong dự án của Tổng cục Thuế, sử dụng ASP.NET Zero.">Đảm nhiệm vai trò Key Developer trong dự án của Tổng cục Thuế, sử dụng ASP.NET Zero.</span></li>
+          <li><i class="fa-solid fa-circle"></i><span data-en="Supported on-site UAT, documented APIs in Postman, and worked in an Agile process." data-vi="Hỗ trợ nghiệm thu trực tiếp (Onsite UAT), viết tài liệu API trên Postman, làm việc theo quy trình Agile.">Hỗ trợ nghiệm thu trực tiếp (Onsite UAT), viết tài liệu API trên Postman, làm việc theo quy trình Agile.</span></li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-dot"></span>
+        <p class="timeline-period" data-en="03/2022 - 03/2023" data-vi="03/2022 - 03/2023">03/2022 - 03/2023</p>
+        <h3 class="timeline-role" data-en=".NET Developer" data-vi="Lập trình viên .NET">Lập trình viên .NET</h3>
+        <p class="timeline-company">STEcom</p>
+        <ul class="timeline-list">
+          <li><i class="fa-solid fa-circle"></i><span data-en="Built budget and bidding-estimate management systems with ASP.NET Core MVC / Angular." data-vi="Xây dựng hệ thống quản lý ngân sách và dự toán đấu thầu với ASP.NET Core MVC / Angular.">Xây dựng hệ thống quản lý ngân sách và dự toán đấu thầu với ASP.NET Core MVC / Angular.</span></li>
+          <li><i class="fa-solid fa-circle"></i><span data-en="Developed APIs for the Contract, Payment, and System Report modules." data-vi="Phát triển API cho các phân hệ Hợp đồng, Thanh toán và Báo cáo hệ thống.">Phát triển API cho các phân hệ Hợp đồng, Thanh toán và Báo cáo hệ thống.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     4. SKILLS — Kỹ năng chuyên môn
+     ============================================ -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-en="Professional Skills" data-vi="Kỹ năng chuyên môn">Kỹ năng chuyên môn</h2>
+      <p data-en="The core tools and skills I use on every project." data-vi="Những công cụ và kỹ năng cốt lõi tôi sử dụng trong mỗi dự án.">Những công cụ và kỹ năng cốt lõi tôi sử dụng trong mỗi dự án.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon"><i class="fa-brands fa-microsoft"></i></div>
+        <h3>.NET / ASP.NET Core</h3>
+        <p data-en="Building solid backend systems and APIs with C# .NET Core." data-vi="Xây dựng API và hệ thống backend vững chắc với C# .NET Core.">Xây dựng API và hệ thống backend vững chắc với C# .NET Core.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon"><i class="fa-brands fa-angular"></i></div>
+        <h3>Angular</h3>
+        <p data-en="Developing flexible, high-performance SPA interfaces." data-vi="Phát triển giao diện SPA linh hoạt, hiệu năng cao.">Phát triển giao diện SPA linh hoạt, hiệu năng cao.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon"><i class="fa-solid fa-database"></i></div>
+        <h3 data-en="Databases" data-vi="Cơ sở dữ liệu">Cơ sở dữ liệu</h3>
+        <p data-en="Designing and optimizing SQL Server, Oracle, and MongoDB." data-vi="Thiết kế và tối ưu SQL Server, Oracle và MongoDB.">Thiết kế và tối ưu SQL Server, Oracle và MongoDB.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon"><i class="fa-solid fa-sitemap"></i></div>
+        <h3 data-en="System Design" data-vi="Phân tích & Thiết kế hệ thống">Phân tích & Thiết kế hệ thống</h3>
+        <p data-en="Specifying requirements and designing clear system architecture." data-vi="Đặc tả yêu cầu, thiết kế kiến trúc hệ thống rõ ràng.">Đặc tả yêu cầu, thiết kế kiến trúc hệ thống rõ ràng.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <h3 data-en="Agile Tools" data-vi="Công cụ & Quy trình">Công cụ & Quy trình</h3>
+        <p data-en="Working effectively with Git, Jira, Postman, and Azure DevOps." data-vi="Làm việc hiệu quả với Git, Jira, Postman và Azure DevOps.">Làm việc hiệu quả với Git, Jira, Postman và Azure DevOps.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon"><i class="fa-brands fa-node-js"></i></div>
+        <h3>Node.js & PHP</h3>
+        <p data-en="Expanding full-stack skills with Node.js and PHP (Botble CMS)." data-vi="Mở rộng kỹ năng full-stack với Node.js và PHP (Botble CMS).">Mở rộng kỹ năng full-stack với Node.js và PHP (Botble CMS).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     5. PROJECTS — Dự án nổi bật
+     ============================================ -->
+<section class="section section-alt" id="projects">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-en="Featured Projects" data-vi="Dự án nổi bật">Dự án nổi bật</h2>
+      <p data-en="Real projects from my professional career — click a project to see the details." data-vi="Những dự án thực tế trong quá trình làm việc — bấm vào từng dự án để xem chi tiết.">Những dự án thực tế trong quá trình làm việc — bấm vào từng dự án để xem chi tiết.</p>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-thumb"><img src="https://media.licdn.com/dms/image/v2/D560BAQFiGB4XHG44dA/company-logo_200_200/B56ZfzA4aDGoAM-/0/1752128784445/nec_australia_logo?e=2147483647&v=beta&t=5a_gpaojkNKDFCUAEiPM4Z-qXrKadbkW_zwYRPK6tdg" alt="Transaction Banking Common System"></div>
+        <div class="project-body">
+          <h3>Transaction Banking Common System (TBCS)</h3>
+          <p data-en="Maintaining, optimizing, and troubleshooting a large-scale transaction banking system." data-vi="Bảo trì, tối ưu và xử lý sự cố cho hệ thống ngân hàng giao dịch quy mô lớn.">Bảo trì, tối ưu và xử lý sự cố cho hệ thống ngân hàng giao dịch quy mô lớn.</p>
+          <div class="project-tags"><span>Java</span><span>C# ASP.NET</span><span>Oracle</span></div>
+          <button type="button" class="project-link" data-project="tbcs"><span data-en="View Details" data-vi="Xem chi tiết">Xem chi tiết</span> <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBfXHbuLkjCqgbkvYNw2fePPCpYn7ENwxfcO9iaKGAzw&s=10" alt="Ứng dụng Quản lý Đại lý Thuế"></div>
+        <div class="project-body">
+          <h3 data-en="Tax Agent Management Application" data-vi="Ứng dụng Quản lý Đại lý Thuế">Ứng dụng Quản lý Đại lý Thuế</h3>
+          <p data-en="Centralized tax management and risk-analysis software for tax agents nationwide." data-vi="Phần mềm quản lý thuế tập trung và phân tích rủi ro cho đại lý thuế trên toàn quốc.">Phần mềm quản lý thuế tập trung và phân tích rủi ro cho đại lý thuế trên toàn quốc.</p>
+          <div class="project-tags"><span>.NET</span><span>Oracle</span><span>Jira</span></div>
+          <button type="button" class="project-link" data-project="taxagent"><span data-en="View Details" data-vi="Xem chi tiết">Xem chi tiết</span> <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY7u4ksyUbk9uZdEuBa6HxPf0voOsDlXUJvhpNWk43_Q&s=10" alt="Phần mềm Thi Offline"></div>
+        <div class="project-body">
+          <h3 data-en="Offline Exam Software" data-vi="Phần mềm Thi Offline">Phần mềm Thi Offline</h3><br/>
+          <p data-en="System for exam registration intake and managing the entire offline exam process." data-vi="Hệ thống tiếp nhận hồ sơ dự thi và quản lý toàn bộ quy trình thi offline.">Hệ thống tiếp nhận hồ sơ dự thi và quản lý toàn bộ quy trình thi offline.</p><br/>
+          <div class="project-tags"><span>.NET</span><span>Oracle</span><span>Jira</span></div>
+          <button type="button" class="project-link" data-project="thioffline"><span data-en="View Details" data-vi="Xem chi tiết">Xem chi tiết</span> <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFZJPojBnEI11buZ2KNG6Jqv9uSF08T5lyGU3UA1pJFA&s" alt="Hệ thống EPIC System"></div>
+        <div class="project-body">
+          <h3 data-en="EPIC System" data-vi="Hệ thống EPIC System">Hệ thống EPIC System</h3><br/>
+          <p data-en="A closed-loop economic ecosystem for investors in real estate, commerce, and finance." data-vi="Hệ sinh thái kinh tế khép kín phục vụ nhà đầu tư trong bất động sản, thương mại và tài chính.">Hệ sinh thái kinh tế khép kín phục vụ nhà đầu tư trong bất động sản, thương mại và tài chính.</p>
+          <div class="project-tags"><span>.NET</span><span>MongoDB</span><span>Angular</span></div>
+          <button type="button" class="project-link" data-project="epic"><span data-en="View Details" data-vi="Xem chi tiết">Xem chi tiết</span> <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb"><img src="https://kland.vn/upload/partner/partner_cong-ty-co-phan-andes-e_c-viet-nam_3.png" alt="Website Quản lý Xây dựng ANDES"></div>
+        <div class="project-body">
+          <h3 data-en="ANDES Construction Management Website" data-vi="Website Quản lý Xây dựng ANDES">Website Quản lý Xây dựng ANDES</h3>
+          <p data-en="Software for construction project intake, budget calculation, and investment reporting." data-vi="Phần mềm tiếp nhận hồ sơ dự án xây dựng, tính toán ngân sách và xuất báo cáo đầu tư.">Phần mềm tiếp nhận hồ sơ dự án xây dựng, tính toán ngân sách và xuất báo cáo đầu tư.</p>
+          <div class="project-tags"><span>SQL Server</span><span>.NET</span><span>Angular</span></div>
+          <button type="button" class="project-link" data-project="andes"><span data-en="View Details" data-vi="Xem chi tiết">Xem chi tiết</span> <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb"><img src="https://huce.edu.vn/images57/portal-1/Gi%E1%BB%9Bi%20thi%E1%BB%87u/HUCE.jpg" alt="Hệ thống Tuyển sinh Trực tuyến"></div>
+        <div class="project-body">
+          <h3 data-en="Online Admissions System" data-vi="Hệ thống Tuyển sinh Trực tuyến">Hệ thống Tuyển sinh Trực tuyến</h3>
+          <p data-en="Graduation project: an online admissions system with integrated payment and email delivery." data-vi="Đồ án tốt nghiệp: hệ thống tuyển sinh trực tuyến tích hợp thanh toán và gửi email.">Đồ án tốt nghiệp: hệ thống tuyển sinh trực tuyến tích hợp thanh toán và gửi email.</p>
+          <div class="project-tags"><span>C#</span><span>.NET Core</span><span>Angular 14</span></div>
+          <button type="button" class="project-link" data-project="graduation"><span data-en="View Details" data-vi="Xem chi tiết">Xem chi tiết</span> <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     6. SERVICES — Dịch vụ tôi cung cấp
+     ============================================ -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-en="Services I Offer" data-vi="Dịch vụ tôi cung cấp">Dịch vụ tôi cung cấp</h2>
+      <p data-en="Reference pricing — the final quote depends on your specific requirements." data-vi="Giá tham khảo — báo giá cuối cùng phụ thuộc vào yêu cầu cụ thể của bạn.">Giá tham khảo — báo giá cuối cùng phụ thuộc vào yêu cầu cụ thể của bạn.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <h3 class="service-name" data-en="Basic" data-vi="Gói Cơ bản">Gói Cơ bản</h3>
+        <div class="service-price">3.000.000₫</div>
+        <ul class="service-features">
+          <li><i class="fa-solid fa-check"></i><span data-en="1-page landing page" data-vi="Landing page 1 trang">Landing page 1 trang</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Responsive design" data-vi="Thiết kế responsive">Thiết kế responsive</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="3 free revisions" data-vi="3 lần chỉnh sửa miễn phí">3 lần chỉnh sửa miễn phí</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Delivered in 5 days" data-vi="Bàn giao trong 5 ngày">Bàn giao trong 5 ngày</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="1 month of technical support" data-vi="Hỗ trợ kỹ thuật 1 tháng">Hỗ trợ kỹ thuật 1 tháng</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-outline btn-block"><span data-en="Choose this plan" data-vi="Chọn gói này">Chọn gói này</span></a>
+      </div>
+
+      <div class="service-card featured">
+        <span class="service-badge badge" data-en="Popular" data-vi="Phổ biến">Phổ biến</span>
+        <h3 class="service-name" data-en="Standard" data-vi="Gói Tiêu chuẩn">Gói Tiêu chuẩn</h3>
+        <div class="service-price">8.000.000₫</div>
+        <ul class="service-features">
+          <li><i class="fa-solid fa-check"></i><span data-en="Multi-page website (up to 5 pages)" data-vi="Website đa trang (tối đa 5 trang)">Website đa trang (tối đa 5 trang)</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Basic SEO optimization" data-vi="Tối ưu SEO cơ bản">Tối ưu SEO cơ bản</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Contact form integration" data-vi="Tích hợp form liên hệ">Tích hợp form liên hệ</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Fully responsive on all devices" data-vi="Responsive đầy đủ trên mọi thiết bị">Responsive đầy đủ trên mọi thiết bị</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="3 months of technical support" data-vi="Hỗ trợ kỹ thuật 3 tháng">Hỗ trợ kỹ thuật 3 tháng</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-primary btn-block"><span data-en="Choose this plan" data-vi="Chọn gói này">Chọn gói này</span></a>
+      </div>
+
+      <div class="service-card">
+        <h3 class="service-name" data-en="Premium" data-vi="Gói Nâng cao">Gói Nâng cao</h3>
+        <div class="service-price" data-en="Custom Quote" data-vi="Liên hệ báo giá">Liên hệ báo giá</div>
+        <ul class="service-features">
+          <li><i class="fa-solid fa-check"></i><span data-en="Custom web app / management system" data-vi="Web app / hệ thống quản lý tùy chỉnh">Web app / hệ thống quản lý tùy chỉnh</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Database & API integration" data-vi="Tích hợp cơ sở dữ liệu & API">Tích hợp cơ sở dữ liệu & API</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="In-depth performance optimization" data-vi="Tối ưu hiệu năng chuyên sâu">Tối ưu hiệu năng chuyên sâu</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Long-term maintenance & support" data-vi="Bảo trì & hỗ trợ kỹ thuật dài hạn">Bảo trì & hỗ trợ kỹ thuật dài hạn</span></li>
+          <li><i class="fa-solid fa-check"></i><span data-en="Dedicated technical consulting" data-vi="Tư vấn giải pháp kỹ thuật riêng">Tư vấn giải pháp kỹ thuật riêng</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-outline btn-block"><span data-en="Choose this plan" data-vi="Chọn gói này">Chọn gói này</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     7. CONTACT — Liên hệ với tôi
+     ============================================ -->
+<section class="section section-alt" id="contact">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-en="Get in Touch" data-vi="Liên hệ với tôi">Liên hệ với tôi</h2>
+      <p data-en="Pick the channel that works best for you — I'll get back to you shortly." data-vi="Chọn kênh liên hệ phù hợp với bạn, tôi sẽ phản hồi sớm nhất có thể.">Chọn kênh liên hệ phù hợp với bạn, tôi sẽ phản hồi sớm nhất có thể.</p>
+    </div>
+    <div class="contact-grid">
+
+      <a class="contact-card" href="https://zalo.me/0913088630" target="_blank" rel="noopener">
+        <div class="contact-icon"><i class="fa-solid fa-comment-dots"></i></div>
+        <h3>Zalo</h3>
+        <p>0913 088 630</p>
+      </a>
+
+      <a class="contact-card" href="https://m.me/hieudtdev" target="_blank" rel="noopener">
+        <div class="contact-icon"><i class="fa-brands fa-facebook-messenger"></i></div>
+        <h3>Messenger</h3>
+        <p>facebook.com/hieudtdev</p>
+      </a>
+
+      <a class="contact-card" href="tel:+84913088630">
+        <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+        <h3 data-en="Phone" data-vi="Điện thoại">Điện thoại</h3>
+        <p>+84 0913 088 630</p>
+      </a>
+
+      <a class="contact-card" href="mailto:dthieu0910@gmail.com">
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+        <h3>Email</h3>
+        <p>dthieu0910@gmail.com</p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer>
+  <div class="container footer-inner">
+    <p>&copy; <span id="year">2026</span> Đinh Trung Hiếu. <span data-en="All rights reserved." data-vi="Bảo lưu mọi quyền.">Bảo lưu mọi quyền.</span></p>
+    <div class="footer-social">
+      <a class="icon-btn" href="https://facebook.com/hieudtdev" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================
+     MODAL — Popup chi tiết dự án (nội dung được JS bơm vào)
+     ============================================ -->
+<div class="modal-overlay" id="projectModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-content">
+      <h3 id="modalTitle"></h3>
+      <p class="modal-client" id="modalClient"></p>
+      <div class="modal-meta">
+        <div><span data-en="Period" data-vi="Thời gian">Thời gian</span><strong id="modalPeriod"></strong></div>
+        <div><span data-en="Team Size" data-vi="Số lượng thành viên">Số lượng thành viên</span><strong id="modalTeam"></strong></div>
+        <div><span data-en="Role" data-vi="Vai trò">Vai trò</span><strong id="modalRole"></strong></div>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="project-tags" id="modalTech"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================
+   BIẾN & PHẦN TỬ DOM DÙNG CHUNG
+   ============================================ */
+const root = document.documentElement;
+const header = document.getElementById('site-header');
+const themeToggle = document.getElementById('themeToggle');
+const langSwitch = document.getElementById('langSwitch');
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+/* Biến dùng cho popup dự án — khai báo sớm để tránh lỗi truy cập trước khi khởi tạo (TDZ) */
+let activeProjectKey = null;
+let lastFocusedEl = null;
+
+/* ============================================
+   1. DARK MODE — lưu lựa chọn vào localStorage
+   ============================================ */
+function applyTheme(theme){
+  if(theme === 'dark'){
+    root.setAttribute('data-theme', 'dark');
+    themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+  } else {
+    root.removeAttribute('data-theme');
+    themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+  }
+}
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('theme', next);
+  applyTheme(next);
+});
+
+/* ============================================
+   2. LANGUAGE TOGGLE (EN / VI) — mặc định EN, lưu vào localStorage
+   ============================================ */
+const titles = {
+  en: 'Đinh Trung Hiếu — .NET Developer & Freelance Web Developer',
+  vi: 'Đinh Trung Hiếu — Lập trình viên .NET & Freelance Web Developer'
+};
+
+let currentLang = localStorage.getItem('lang') || 'en'; // ưu tiên tiếng Anh mặc định
+
+function applyLanguage(lang){
+  currentLang = lang;
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const text = lang === 'vi' ? el.getAttribute('data-vi') : el.getAttribute('data-en');
+    if(text !== null) el.textContent = text;
+  });
+  document.title = titles[lang] || titles.en;
+  root.lang = lang;
+  langSwitch.querySelectorAll('button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  // Nếu popup dự án đang mở, render lại nội dung theo ngôn ngữ mới
+  if(activeProjectKey) renderModalContent(activeProjectKey);
+}
+applyLanguage(currentLang);
+
+langSwitch.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-lang]');
+  if(!btn) return;
+  const lang = btn.dataset.lang;
+  localStorage.setItem('lang', lang);
+  applyLanguage(lang);
+});
+
+/* ============================================
+   3. STICKY HEADER — đổi nền khi cuộn trang
+   ============================================ */
+function handleScroll(){
+  header.classList.toggle('scrolled', window.scrollY > 20);
+}
+window.addEventListener('scroll', handleScroll);
+handleScroll();
+
+/* ============================================
+   4. MENU MOBILE (hamburger)
+   ============================================ */
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+/* ============================================
+   5. ĐẾM SỐ (count-up) KHI CUỘN ĐẾN PHẦN THỐNG KÊ
+   ============================================ */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function countUp(el){
+  const target = parseInt(el.dataset.target, 10);
+  if(prefersReducedMotion){ el.textContent = target; return; }
+  const duration = 1400;
+  const start = performance.now();
+  function step(now){
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if(progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      countUp(entry.target);
+      statObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
+
+/* ============================================
+   6. NĂM HIỆN TẠI Ở FOOTER
+   ============================================ */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================
+   7. POPUP CHI TIẾT DỰ ÁN — dữ liệu song ngữ cho từng dự án
+   ============================================ */
+const PROJECTS = {
+  tbcs: {
+    image: 'https://media.licdn.com/dms/image/v2/D560BAQFiGB4XHG44dA/company-logo_200_200/B56ZfzA4aDGoAM-/0/1752128784445/nec_australia_logo?e=2147483647&v=beta&t=5a_gpaojkNKDFCUAEiPM4Z-qXrKadbkW_zwYRPK6tdg',
+    tech: ['Java','C# ASP.NET','PowerShell','JavaScript','Oracle','SQL Server','SSIS','SSRS'],
+    en: {
+      title: 'Transaction Banking Common System (TBCS)',
+      client: 'Client: SCSK Asia Pacific',
+      period: '03/2024 - 07/2025',
+      team: '6 developers (Offshore team)',
+      role: 'FE + BE Developer',
+      desc: 'Worked with an offshore team to maintain, optimize, and troubleshoot the TBCS system — receiving client alerts, investigating root causes, and deploying timely fixes to keep the system running smoothly.'
+    },
+    vi: {
+      title: 'Transaction Banking Common System (TBCS)',
+      client: 'Khách hàng: SCSK Asia Pacific',
+      period: '03/2024 - 07/2025',
+      team: '6 lập trình viên (Offshore)',
+      role: 'FE + BE Developer',
+      desc: 'Phối hợp cùng đội ngũ Offshore để bảo trì, tối ưu và xử lý sự cố cho hệ thống TBCS. Tiếp nhận cảnh báo từ khách hàng, điều tra nguyên nhân lỗi và triển khai biện pháp khắc phục kịp thời nhằm đảm bảo hệ thống vận hành ổn định.'
+    }
+  },
+  taxagent: {
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBfXHbuLkjCqgbkvYNw2fePPCpYn7ENwxfcO9iaKGAzw&s=10',
+    tech: ['Oracle', '.NET', 'ASP.NET Boilerplate MVC', 'Jira'],
+    en: {
+      title: 'Tax Agent Management Application',
+      client: 'Client: General Department of Taxation, provincial & district tax offices',
+      period: '05/2023 - Present',
+      team: '12 members',
+      role: 'FE + BE Developer',
+      desc: 'Built software for exam registration intake, centralized tax management, and taxpayer risk analysis, in line with Circular 10/2021/TT-BTC regulations.'
+    },
+    vi: {
+      title: 'Ứng dụng Quản lý Đại lý Thuế',
+      client: 'Khách hàng: Tổng cục Thuế, Cục thuế và Chi cục thuế',
+      period: '05/2023 - Hiện tại',
+      team: '12 thành viên',
+      role: 'FE + BE Developer',
+      desc: 'Xây dựng phần mềm tiếp nhận hồ sơ dự thi, ứng dụng quản lý thuế tập trung và phân tích thông tin người nộp thuế, đáp ứng các quy định tại Thông tư 10/2021/TT-BTC.'
+    }
+  },
+  thioffline: {
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY7u4ksyUbk9uZdEuBa6HxPf0voOsDlXUJvhpNWk43_Q&s=10',
+    tech: ['Oracle', '.NET Boilerplate MVC', 'Jira'],
+    en: {
+      title: 'Offline Exam Software',
+      client: 'Client: Tax Professional Training School',
+      period: '03/2023 - 05/2023',
+      team: '6 members',
+      role: 'FE + BE Developer',
+      desc: 'Built features for registration intake, candidate management, room assignment, exam-code shuffling, score management, and reporting, along with permissions and score-edit history logging.'
+    },
+    vi: {
+      title: 'Phần mềm Thi Offline',
+      client: 'Khách hàng: Trường Nghiệp vụ Thuế',
+      period: '03/2023 - 05/2023',
+      team: '6 thành viên',
+      role: 'FE + BE Developer',
+      desc: 'Xây dựng các chức năng tiếp nhận hồ sơ, quản lý thí sinh, xếp phòng thi, đánh phách, quản lý điểm thi và báo cáo; xây dựng phân quyền và lưu log lịch sử chỉnh sửa điểm.'
+    }
+  },
+  epic: {
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFZJPojBnEI11buZ2KNG6Jqv9uSF08T5lyGU3UA1pJFA&s',
+    tech: ['Oracle', '.NET', 'MongoDB', 'Node.js', 'Angular'],
+    en: {
+      title: 'EPIC System',
+      client: 'Client: EPIC Sight Co., Ltd.',
+      period: '08/2021 - 02/2022',
+      team: '12 members',
+      role: 'BE Developer',
+      desc: 'Built APIs for the Contract and Payment modules, developed reports for financial investment products, bank-side encryption modules, QR code generation, and permissions.'
+    },
+    vi: {
+      title: 'Hệ thống EPIC System',
+      client: 'Khách hàng: Công ty TNHH EPIC SIGHT',
+      period: '08/2021 - 02/2022',
+      team: '12 thành viên',
+      role: 'BE Developer',
+      desc: 'Xây dựng API cho các phần Hợp đồng, Thanh toán; phát triển báo cáo hệ thống quản lý sản phẩm đầu tư tài chính, module mã hoá phía ngân hàng, sinh mã QR và phân quyền.'
+    }
+  },
+  andes: {
+    image: 'https://kland.vn/upload/partner/partner_cong-ty-co-phan-andes-e_c-viet-nam_3.png',
+    tech: ['SQL Server', '.NET', 'Angular'],
+    en: {
+      title: 'ANDES Construction Management Website',
+      client: 'Client: ANDES JSC',
+      period: '06/2022 - 09/2022',
+      team: '5 members',
+      role: 'BE Developer',
+      desc: 'Adjusted business flows for budget and bid-estimate modules, and added several minor features per client requests.'
+    },
+    vi: {
+      title: 'Website Quản lý Xây dựng ANDES',
+      client: 'Khách hàng: Công ty Cổ phần ANDES JSC',
+      period: '06/2022 - 09/2022',
+      team: '5 thành viên',
+      role: 'BE Developer',
+      desc: 'Chỉnh sửa luồng nghiệp vụ các module ngân sách và dự toán thầu; hỗ trợ bổ sung một số chức năng nhỏ theo yêu cầu khách hàng.'
+    }
+  },
+  graduation: {
+    image: 'https://huce.edu.vn/images57/portal-1/Gi%E1%BB%9Bi%20thi%E1%BB%87u/HUCE.jpg',
+    tech: ['C#', '.NET Core', 'Angular 14', 'AWS'],
+    en: {
+      title: 'Online Admissions System',
+      client: 'Client: Hanoi University of Civil Engineering',
+      period: '05/2024 - 07/2024',
+      team: 'Team Leader',
+      role: 'Full-stack Developer',
+      desc: 'Led the team in building an online admissions system with online payment integration and AWS-based email management, personally coding the full API flow in C# .NET Core.'
+    },
+    vi: {
+      title: 'Hệ thống Tuyển sinh Trực tuyến',
+      client: 'Khách hàng: Đại học Xây dựng Hà Nội',
+      period: '05/2024 - 07/2024',
+      team: 'Trưởng nhóm',
+      role: 'Full-stack Developer',
+      desc: 'Trưởng nhóm xây dựng hệ thống tuyển sinh trực tuyến cho trường, tích hợp thanh toán trực tuyến qua cổng thanh toán online và quản lý gửi email trên nền tảng AWS. Trực tiếp code toàn bộ luồng API bằng C# .NET Core.'
+    }
+  }
+};
+
+const modalOverlay = document.getElementById('projectModal');
+const modalClose = document.getElementById('modalClose');
+
+function renderModalContent(key){
+  const data = PROJECTS[key];
+  if(!data) return;
+  const t = data[currentLang] || data.en;
+  document.getElementById('modalImg').src = data.image;
+  document.getElementById('modalImg').alt = t.title;
+  document.getElementById('modalTitle').textContent = t.title;
+  document.getElementById('modalClient').textContent = t.client;
+  document.getElementById('modalPeriod').textContent = t.period;
+  document.getElementById('modalTeam').textContent = t.team;
+  document.getElementById('modalRole').textContent = t.role;
+  document.getElementById('modalDesc').textContent = t.desc;
+  const techWrap = document.getElementById('modalTech');
+  techWrap.innerHTML = '';
+  data.tech.forEach(tech => {
+    const span = document.createElement('span');
+    span.textContent = tech;
+    techWrap.appendChild(span);
+  });
+}
+
+function openProjectModal(key){
+  activeProjectKey = key;
+  renderModalContent(key);
+  lastFocusedEl = document.activeElement;
+  modalOverlay.classList.add('open');
+  modalOverlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+  modalClose.focus();
+}
+
+function closeProjectModal(){
+  modalOverlay.classList.remove('open');
+  modalOverlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+  activeProjectKey = null;
+  if(lastFocusedEl) lastFocusedEl.focus();
+}
+
+document.querySelectorAll('[data-project]').forEach(btn => {
+  btn.addEventListener('click', () => openProjectModal(btn.dataset.project));
+});
+
+modalClose.addEventListener('click', closeProjectModal);
+modalOverlay.addEventListener('click', (e) => {
+  if(e.target === modalOverlay) closeProjectModal();
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && modalOverlay.classList.contains('open')) closeProjectModal();
+});
+</script>
+
+</body>
+</html>
